@@ -139,31 +139,29 @@ function OrderHistory() {
         </select>
       </div>
 
-     
       {showDatePicker && (
         <div style={{ textAlign: "center", marginTop: "15px" }}>
           <div style={{ textAlign: "center", marginTop: "15px" }}>
-  <label style={{ marginRight: "10px", fontWeight: "bold" }}>
-    Start Date: 
-    <input
-      type="date"
-      value={startDate}
-      onChange={(e) => setStartDate(e.target.value)}
-      style={{ marginLeft: "5px", marginRight: "20px" }}
-    />
-  </label>
+            <label style={{ marginRight: "10px", fontWeight: "bold" }}>
+              Start Date:
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                style={{ marginLeft: "5px", marginRight: "20px" }}
+              />
+            </label>
 
-  <label style={{ marginRight: "10px", fontWeight: "bold" }}>
-    End Date: 
-    <input
-      type="date"
-      value={endDate}
-      onChange={(e) => setEndDate(e.target.value)}
-      style={{ marginLeft: "5px", marginRight: "20px" }}
-    />
-  </label>
-
-</div>
+            <label style={{ marginRight: "10px", fontWeight: "bold" }}>
+              End Date:
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                style={{ marginLeft: "5px", marginRight: "20px" }}
+              />
+            </label>
+          </div>
 
           <div
             style={{
@@ -175,14 +173,14 @@ function OrderHistory() {
             }}
           >
             <button
-              style={{ background: "green", color: "white",width:"120px" }}
+              style={{ background: "green", color: "white", width: "120px" }}
               className="btn-4"
               onClick={fetchOrders}
             >
-               Apply
+              Apply
             </button>
             <button
-              style={{ background: "red", color: "white" ,width:"120px"}}
+              style={{ background: "red", color: "white", width: "120px" }}
               className="btn-5"
               onClick={() => {
                 setStartDate("");
@@ -191,7 +189,7 @@ function OrderHistory() {
                 setView("today");
               }}
             >
-               Cancel
+              Cancel
             </button>
           </div>
         </div>
@@ -208,7 +206,6 @@ function OrderHistory() {
         Total Orders: {orders.length}
       </div>
 
-
       <div
         style={{
           display: "flex",
@@ -219,7 +216,7 @@ function OrderHistory() {
         }}
       >
         {loading && (
-          <p style={{ fontWeight: "bold", color: "gray" }}>
+          <p style={{ fontWeight: "bold", color: "red" }}>
             Loading Orders....
           </p>
         )}

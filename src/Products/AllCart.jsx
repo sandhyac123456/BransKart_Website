@@ -153,7 +153,6 @@ const userId = user?._id;
               </p>
             ) : (
               <>
-                {/* Heading Row  */}
                 <div
                   style={{
                     display: "flex",

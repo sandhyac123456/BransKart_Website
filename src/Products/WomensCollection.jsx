@@ -7,9 +7,12 @@ const API = import.meta.env.VITE_API_URL ;
 
 function WomensCollection() {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let url = `${API}/api/products/category/Women`;
+        setLoading(true);
+
     axios
       .get(url)
       .then((res) => {
@@ -18,6 +21,9 @@ function WomensCollection() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -32,6 +38,10 @@ function WomensCollection() {
       </div>
       <div className="container mt-4">
         <div className="row">
+          {loading ? (
+            <p style={{ color: "red", fontSize: "40px" }}>Loading...</p>
+          ) : (
+            <>
           {items.length > 0 ? (
             items.map((item) => {
               return (
@@ -64,6 +74,8 @@ function WomensCollection() {
             })
           ) : (
             <h1>Item not found</h1>
+          )}
+          </>
           )}
         </div>
       </div>
