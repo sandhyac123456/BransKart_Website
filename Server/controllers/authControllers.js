@@ -84,7 +84,7 @@ exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let imageUrl = "";
+    let imageFileName = null;
 
     if (image && image.startsWith("data:image/")) {
       const matches = image.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
@@ -100,7 +100,7 @@ exports.register = async (req, res) => {
       fs.writeFileSync(filePath, buffer);
 
       // imageUrl = `${process.env.SERVER_URL}/uploads/${fileName}`;
-      const imageFileName = `${fileName}`;
+       imageFileName = fileName;
     }
 
     const user = new User({
