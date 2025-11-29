@@ -99,14 +99,15 @@ exports.register = async (req, res) => {
 
       fs.writeFileSync(filePath, buffer);
 
-      imageUrl = `${process.env.SERVER_URL}/uploads/${fileName}`;
+      // imageUrl = `${process.env.SERVER_URL}/uploads/${fileName}`;
+      const imageFileName = `${fileName}`;
     }
 
     const user = new User({
       username,
       email,
       password: hashedPassword,
-      image: imageUrl,
+      image: imageFileName,
     });
 
     await user.save();

@@ -5,6 +5,7 @@ import { useCart } from "../context/CartContext.jsx";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Redux/authSlice.js";
+const API = import.meta.env.VITE_API_URL ;
 
 function Navbar() {
   let navigate = useNavigate();
@@ -121,7 +122,7 @@ function Navbar() {
                     to="/profile"
                   >
                     <img
-                      src={user.image}
+                      src={`${API}/uploads/${user.image}`}
                       alt="User"
                       style={{
                         width: "30px",
