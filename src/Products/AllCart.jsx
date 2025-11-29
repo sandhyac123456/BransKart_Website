@@ -57,7 +57,8 @@ const userId = user?._id;
     }
   };
 
-  const incQty = async (productId) => {
+  const incQty = async (e,productId) => {
+    e.preventDefault();
     const item = cartItems.find((item) => item.productId === productId);
     if (item) {
       const newQty = item.quantity + 1;
@@ -65,7 +66,8 @@ const userId = user?._id;
     }
   };
 
-  const decQty = async (productId) => {
+  const decQty = async (e,productId) => {
+    e.preventDefault();
     const item = cartItems.find((item) => item.productId === productId);
     if (item && item.quantity > 1) {
       const newQty = item.quantity - 1;
@@ -191,12 +193,12 @@ const userId = user?._id;
                     <div style={{ width: "60px" }}>
                       <i
                         className="fa-solid fa-circle-minus"
-                        onClick={() => decQty(item.productId)}
+                        onClick={(e) => decQty(e,item.productId)}
                       />
                       {item.quantity}
                       <i
                         className="fa-solid fa-circle-plus"
-                        onClick={() => incQty(item.productId)}
+                        onClick={(e) => incQty(e,item.productId)}
                       />
                     </div>
                     <div style={{ width: "80px" }}>₹{item.price}</div>
