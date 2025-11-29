@@ -55,7 +55,6 @@ const AllCart = () => {
 
   const incQty = async (e, productId) => {
     e.preventDefault();
-    e.stopPropagation();
     const item = cartItems.find((item) => item.productId === productId);
     if (item) {
       const newQty = item.quantity + 1;
@@ -65,7 +64,6 @@ const AllCart = () => {
 
   const decQty = async (e, productId) => {
     e.preventDefault();
-    e.stopPropagation();
     const item = cartItems.find((item) => item.productId === productId);
     if (item && item.quantity > 1) {
       const newQty = item.quantity - 1;
@@ -189,26 +187,8 @@ const AllCart = () => {
                     <div style={{ width: "90px" }}>{item.name}</div>
 
                     <div style={{ width: "60px" }}>
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={(e) => decQty(e, item.productId)}
-                        aria-label="decrease quantity"
-                      >
-                        <i className="fa-solid fa-circle-minus" />
-                      </button>
-
-                      <span style={{ margin: "0 8px" }}>{item.quantity}</span>
-
-                      <button
-                        type="button"
-                        className="icon-btn"
-                        onClick={(e) => incQty(e, item.productId)}
-                        aria-label="increase quantity"
-                      >
-                        <i className="fa-solid fa-circle-plus" />
-                      </button>
-                      {/* <i
+                    
+                      <i
                         className="fa-solid fa-circle-minus"
                         onClick={(e) => decQty(e,item.productId)}
                       />
@@ -216,7 +196,7 @@ const AllCart = () => {
                       <i
                         className="fa-solid fa-circle-plus"
                         onClick={(e) => incQty(e,item.productId)}
-                      /> */}
+                      />
                     </div>
                     <div style={{ width: "80px" }}>₹{item.price}</div>
                     <div
