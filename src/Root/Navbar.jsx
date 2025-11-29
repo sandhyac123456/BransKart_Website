@@ -19,7 +19,7 @@ function Navbar() {
   useEffect(() => {
     if (user && user._id) {
       axios
-        .get(`http://localhost:5000/api/cart/${user._id}`)
+        .get(`${API}/api/cart/${user._id}`)
         .then((res) => {
           const count = res.data.items.length;
           setCartCount(count);
