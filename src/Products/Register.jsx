@@ -11,8 +11,6 @@ function Register() {
   let navigate = useNavigate();
     const dispatch = useDispatch();
 
-     
-
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -91,7 +89,7 @@ const handleSubmit = async (e) => {
         username: formData.username,
         email: formData.email,
         password: formData.password,
-        image: formData.image || "https://via.placeholder.com/150",
+        image: formData.image || null,
       };
 
       const response = await axios.post(`${API}/api/auth/register`, payload);
