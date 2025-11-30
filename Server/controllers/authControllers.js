@@ -117,6 +117,45 @@ console.log(" Password reset successful for:", user.email);
 // };
 const cloudinary = require("../config/cloudinary"); 
 
+// exports.register = async (req, res) => {
+//   const { username, email, password, image } = req.body;
+
+//   try {
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "User already exists with this email." });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     let imageUrl = null;
+
+//     if (image && image.startsWith("data:image/")) {
+//       const uploadResult = await cloudinary.uploader.upload(image, {
+//         folder: "brainskart_users", 
+//         resource_type: "image"
+//       });
+//       imageUrl = uploadResult.secure_url; 
+//     }
+
+//     const user = new User({
+//       username,
+//       email,
+//       password: hashedPassword,
+//       image: imageUrl, 
+//     });
+
+//     await user.save();
+
+//     res.status(201).json({ message: "User registered successfully", user });
+//   } catch (error) {
+//     console.error("Register Error:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+
+const cloudinary = require("../config/cloudinary"); 
+
 exports.register = async (req, res) => {
   const { username, email, password, image } = req.body;
 
@@ -130,19 +169,30 @@ exports.register = async (req, res) => {
 
     let imageUrl = null;
 
-    if (image && image.startsWith("data:image/")) {
-      const uploadResult = await cloudinary.uploader.upload(image, {
-        folder: "brainskart_users", 
-        resource_type: "image"
-      });
-      imageUrl = uploadResult.secure_url; 
+    if (image && typeof image === "string" && image.startsWith("data:image/")) {
+      try {
+        const uploadResult = await cloudinary.uploader.upload(image, {
+          folder: "brainskart_users",
+          resource_type: "image",
+        });
+
+        console.log("Cloudinary uploadResult:", uploadResult); 
+        imageUrl = uploadResult.secure_url || uploadResult.url || null;
+        console.log("imageUrl set to:", imageUrl);
+      } catch (uploadErr) {
+        console.error("Cloudinary upload failed:", uploadErr);
+      }
+    } else if (image && typeof image === "string" && image.startsWith("http")) {
+      imageUrl = image;
+    } else {
+      imageUrl = null;
     }
 
     const user = new User({
       username,
       email,
       password: hashedPassword,
-      image: imageUrl, 
+      image: imageUrl,
     });
 
     await user.save();
