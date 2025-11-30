@@ -25,10 +25,14 @@ function Profile() {
    
       setAddress(res.data);
     } catch (error) {
+      if(error.res && error.res.status === 404){
+        setAddress(null);
+      } else {
       console.error(
         "Error fetching address:",
-        error.res?.data || error.message || error
+         error.message
       );
+    }
     }
   };
   useEffect(() => {
