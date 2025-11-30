@@ -70,8 +70,52 @@ console.log(" Password reset successful for:", user.email);
   res.status(200).json({ message: "Password reset successful" });
 };
 
+// exports.register = async (req, res) => {
+//   const { username, email, password, image } = req.body;
 
+//   try {
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "User already exists with this email." });
+//     }
 
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     let imageFileName = null;
+
+//     if (image && image.startsWith("data:image/")) {
+//       const matches = image.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
+//       if (!matches) return res.status(400).json({ message: "Invalid image format" });
+
+//       const ext = matches[1];
+//       const base64Data = matches[2];
+//       const buffer = Buffer.from(base64Data, "base64");
+
+//       const fileName = `${Date.now()}-${username}.${ext}`;
+//       const filePath = path.join(__dirname, "../uploads", fileName);
+
+//       fs.writeFileSync(filePath, buffer);
+
+//       // imageUrl = `${process.env.SERVER_URL}/uploads/${fileName}`;
+//        imageFileName = fileName;
+//     }
+
+//     const user = new User({
+//       username,
+//       email,
+//       password: hashedPassword,
+//       image: imageFileName,
+//     });
+
+//     await user.save();
+
+//     res.status(201).json({ message: "User registered successfully", user });
+//   } catch (error) {
+//     console.error("Register Error:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
+const cloudinary = require("../config/cloudinary"); 
 
 exports.register = async (req, res) => {
   const { username, email, password, image } = req.body;
@@ -84,30 +128,21 @@ exports.register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let imageFileName = null;
+    let imageUrl = null;
 
     if (image && image.startsWith("data:image/")) {
-      const matches = image.match(/^data:image\/([a-zA-Z]+);base64,(.+)$/);
-      if (!matches) return res.status(400).json({ message: "Invalid image format" });
-
-      const ext = matches[1];
-      const base64Data = matches[2];
-      const buffer = Buffer.from(base64Data, "base64");
-
-      const fileName = `${Date.now()}-${username}.${ext}`;
-      const filePath = path.join(__dirname, "../uploads", fileName);
-
-      fs.writeFileSync(filePath, buffer);
-
-      // imageUrl = `${process.env.SERVER_URL}/uploads/${fileName}`;
-       imageFileName = fileName;
+      const uploadResult = await cloudinary.uploader.upload(image, {
+        folder: "brainskart_users", 
+        resource_type: "image"
+      });
+      imageUrl = uploadResult.secure_url; 
     }
 
     const user = new User({
       username,
       email,
       password: hashedPassword,
-      image: imageFileName,
+      image: imageUrl, 
     });
 
     await user.save();
@@ -118,8 +153,6 @@ exports.register = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-
 
 exports.login = async (req, res) => {
   const { email, password  } = req.body;
